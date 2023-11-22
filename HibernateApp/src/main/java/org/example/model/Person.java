@@ -1,16 +1,15 @@
 package org.example.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GeneratedColumn;
 
 @Entity
 @Table(name = "Person")
 public class Person {
     @Column(name = "id")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
     private String name;
@@ -18,6 +17,11 @@ public class Person {
     private int age;
 
     public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
     public int getId() {
