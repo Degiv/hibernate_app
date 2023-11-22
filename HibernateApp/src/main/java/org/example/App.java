@@ -22,12 +22,15 @@ public class App
         try {
             session.beginTransaction();
 
-            Person person1 = new Person("John", 1);
-            Person person2 = new Person("John2", 10);
-            Person person3 = new Person("John3", 100);
-            session.persist(person1);
-            session.persist(person2);
-            session.persist(person3);
+            Person personToRename = session.get(Person.class, 1);
+            personToRename.setName("Ivan");
+
+            Person personToRemove = session.get(Person.class, 1);
+            session.remove(personToRemove);
+
+            Person person = new Person("qwe", 123);
+            session.persist(person);
+            System.out.println(person.getId());
 
             session.getTransaction().commit();
         } finally {
