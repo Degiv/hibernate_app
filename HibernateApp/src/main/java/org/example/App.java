@@ -4,6 +4,9 @@ import org.example.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 /**
  * Hello world!
@@ -22,15 +25,10 @@ public class App
         try {
             session.beginTransaction();
 
-            Person personToRename = session.get(Person.class, 1);
-            personToRename.setName("Ivan");
-
-            Person personToRemove = session.get(Person.class, 1);
-            session.remove(personToRemove);
-
-            Person person = new Person("qwe", 123);
-            session.persist(person);
-            System.out.println(person.getId());
+            List<Person> people = session.createSelectionQuery("FROM Person WHERE name LIKE 'J%'", Person.class).getResultList();
+            for (Person person: people) {
+                System.out.println(person.getName());
+            }
 
             session.getTransaction().commit();
         } finally {
