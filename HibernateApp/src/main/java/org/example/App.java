@@ -1,14 +1,12 @@
 package org.example;
 
-import org.example.model.Item;
+import org.example.model.Passport;
 import org.example.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Hello world!
@@ -19,7 +17,7 @@ public class App
     public static void main( String[] args )
     {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(Person.class).addAnnotatedClass(Item.class);
+        configuration.addAnnotatedClass(Person.class).addAnnotatedClass(Passport.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
@@ -27,13 +25,9 @@ public class App
         try {
             session.beginTransaction();
 
-            Person newPerson = new Person("Joshua", 62);
-            Item newItem = new Item(newPerson, "Book");
-            newPerson.setItems(new ArrayList<Item>());
-            newPerson.getItems().add(newItem);
-
-            session.persist(newPerson);
-            session.persist(newItem);
+            Person person = session.get(Person.class, 2);
+            person.setPassport(new Passport());
+            person.getPassport().setPassportNumber(654321);
 
             session.getTransaction().commit();
         } finally {
