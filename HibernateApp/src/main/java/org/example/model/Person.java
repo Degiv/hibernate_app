@@ -19,7 +19,7 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "person") //(fetch = FetchType.EAGER) //by default
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Passport passport;
 

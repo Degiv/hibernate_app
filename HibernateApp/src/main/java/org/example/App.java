@@ -4,6 +4,7 @@ import org.example.model.Actor;
 import org.example.model.Movie;
 import org.example.model.Passport;
 import org.example.model.Person;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -28,22 +29,15 @@ public class App
             Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            Actor actor1 = new Actor("Daniel Radcliff");
-            Actor actor2 = new Actor("Ralph Fiennes");
+            Actor actor = session.get(Actor.class, 1);
+            //Hibernate.initialize(actor.getMovies()); //to load binding entities while lazy fetch
 
-            Movie movie1 = new Movie("Harry Potter 3");
-            Movie movie2 = new Movie("Harry Potter 6");
+            session.getTransaction().commit();
 
-            movie1.setActors(new ArrayList<>(List.of(actor1, actor2)));
-            movie2.setActors(new ArrayList<>(List.of(actor1, actor2)));
+            session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
 
-            actor1.setMovies(new ArrayList<>(List.of(movie1, movie2)));
-            actor2.setMovies(new ArrayList<>(List.of(movie1, movie2)));
-
-            session.persist(actor1);
-            session.persist(actor2);
-            session.persist(movie1);
-            session.persist(movie2);
+            actor = (Actor) session.merge(actor); //to pull entity back into persistence context
 
             session.getTransaction().commit();
         }

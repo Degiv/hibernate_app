@@ -16,7 +16,7 @@ public class Actor {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
+    @ManyToMany//(fetch = FetchType.LAZY) //by default
     @JoinTable(
             name = "Actor_Movie",
             joinColumns = @JoinColumn(name = "actor_id"),

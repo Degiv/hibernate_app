@@ -13,7 +13,7 @@ public class Passport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne//(fetch = FetchType.EAGER) //by default
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 

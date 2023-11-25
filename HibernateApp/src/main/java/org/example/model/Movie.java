@@ -16,7 +16,7 @@ public class Movie {
     @Column(name = "title")
     private String title;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(mappedBy = "movies") //(fetch = FetchType.LAZY) //by default
     private List<Actor> actors;
 
     public Movie() {
